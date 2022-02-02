@@ -36,9 +36,10 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb://arifin:M01NhGk3fU5uNtUu@cluster0-shard-00-00.oryrc.mongodb.net:27017,cluster0-shard-00-01.oryrc.mongodb.net:27017,cluster0-shard-00-02.oryrc.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-745b4g-shard-0&authSource=admin&retryWrites=true&w=majority"
+    "mongodb://arifin:M01NhGk3fU5uNtUu@cluster0-shard-00-00.oryrc.mongodb.net:27017,cluster0-shard-00-01.oryrc.mongodb.net:27017,cluster0-shard-00-02.oryrc.mongodb.net:27017/blog?ssl=true&replicaSet=atlas-745b4g-shard-0&authSource=admin&retryWrites=true&w=majority"
   )
   .then(() => {
-    app.listen(4000, () => console.log("Koneksi Berhasil"));
+    // app.listen(4000, () => console.log("Koneksi Berhasil"));
+    app.listen(4000);
   })
   .catch((err) => console.log(err));
