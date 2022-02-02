@@ -1,27 +1,44 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const app = express();
 const productRoutes = require("./src/routes/products");
+const authRoutes = require("./src/routes/auth");
+const blogRoutes = require("./src/routes/blog");
 
-// pindahkan ke folder src -> routes
-// router.use("/products", (req, res, next) => {
-//   //   console.log('request', req);
-//   //   console.log("url", req.originalUrl);
-//   //   console.log("method", req.method);
-//   res.json({ name: "arifin", email: "arif@gmail.com" });
-//   next();
-// });
+app.use(bodyParser.json()); //type json
 
-// router.use("/prices", (req, res, next) => {
-//   res.json({ price: 3000 });
-//   next();
-// });
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "Content-Type, Authorization");
+  next();
+});
 
-// router.get("/customers", (req, res, next) => {
-//   res.json({ title: "customers" });
-//   next();
-// });
+app.use("/v1/customer", productRoutes);
+app.use("/v1/auth", authRoutes);
+app.use("/v1/blog", blogRoutes);
 
-app.use("/", productRoutes);
+app.use((error, req, res, next) => {
+  const status = error.errorStatus || 500;
+  const message = error.message;
+  const data = error.data;
 
-app.listen(4000);
+  res.status(status).json({
+    message: message,
+    data: data,
+  });
+});
+
+mongoose
+  .connect(
+    "mongodb://arifin:M01NhGk3fU5uNtUu@cluster0-shard-00-00.oryrc.mongodb.net:27017,cluster0-shard-00-01.oryrc.mongodb.net:27017,cluster0-shard-00-02.oryrc.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-745b4g-shard-0&authSource=admin&retryWrites=true&w=majority"
+  )
+  .then(() => {
+    app.listen(4000, () => console.log("Koneksi Berhasil"));
+  })
+  .catch((err) => console.log(err));
