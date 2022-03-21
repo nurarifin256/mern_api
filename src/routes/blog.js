@@ -14,7 +14,8 @@ router.post(
   blogController.createBlogPost
 );
 
-router.get("/posts", blogController.getAllBlogPost);
+// router.get("/posts", blogController.getAllBlogPost); sebelum di tambah pagination
+router.get("/posts/", blogController.getAllBlogPost); //sesudah di tambah pagination
 router.get("/post/:postId", blogController.getBlogPostById);
 router.put(
   "/post/:postId",
