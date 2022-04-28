@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
+const cors = require("cors");
 
 const app = express();
 const productRoutes = require("./src/routes/products");
@@ -45,6 +46,13 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "Content-Type, Authorization");
   next();
 });
+
+app.options(
+  "*",
+  cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 })
+);
+
+app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }));
 
 app.use("/v1/customer", productRoutes);
 app.use("/v1/auth", authRoutes);
